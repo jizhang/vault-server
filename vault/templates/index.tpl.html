@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Vault</title>
+    <link rel="stylesheet" href="{{ prefix }}/ionicons/css/ionicons.min.css">
+  </head>
+  <body>
+  <!-- 需要服务端注入的环境变量 -->
+  <script>
+    window.__ENV__ = {
+      env: '{{ env }}',
+      api_base_url: '{{ prefix }}'
+    }
+  </script>
+  <!-- / 需要服务端注入的环境变量 -->
+  <div id="app"></div>
+  </body>
+</html>
