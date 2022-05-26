@@ -1,21 +1,22 @@
 import sys
 
-from vault import app, db
+import flask.cli
 
-def main():
-    try:
-        args = sys.argv
-        job_name = args.pop(1)
-        mod_name = 'vault.jobs.%s' % job_name
-        app.ready(db=True, web=False)
 
-        mod = __import__(mod_name, fromlist=['*'])
+def main() -> int:
+    flask.cli.load_dotenv()
+    from vault import app
+
+    args = sys.argv
+    job_name = args.pop(1)
+    mod_name = 'vault.jobs.%s' % job_name
+    mod = __import__(mod_name, fromlist=['*'])
+
+    with app.app_context():
         mod.run(*sys.argv[1:])
-        return 0
 
-    finally:
-        db.session.remove()
+    return 0
+
 
 if __name__ == '__main__':
-    with app.app_context():
-        sys.exit(main())
+    sys.exit(main())
