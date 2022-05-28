@@ -9,7 +9,8 @@
 ## Quick Start
 
 ```
-/usr/local/opt/python@3.8/bin/python3 -m venv .virtualenv
+python3.8 -m venv venv
+source venv/bin/activate
 make dev
 make web
 ```
@@ -17,7 +18,7 @@ make web
 Run job:
 
 ```
-./ve python scripts/job.py user_count
+python scripts/job.py user_count
 ```
 
 ## Production
