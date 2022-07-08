@@ -2,7 +2,7 @@ from flask import request
 from flask_login import login_user, logout_user, login_required, current_user
 
 from vault import app
-from vault.services import UserService
+from vault.services import user as user_svc
 from vault.views.api import make_api_response, exports, APIException
 
 
@@ -13,16 +13,16 @@ def login() -> tuple:
     if not username or not password:
         raise APIException('Username and password cannot be empty.')
 
-    user = UserService.login(username, password)
+    user = user_svc.login_user(username, password)
     if user is None:
         raise APIException('Invalid username or password.')
 
     login_user(user)
-    app.logger.info(f'{username} Login')
+    app.logger.info(f'{user.username} Login')
 
-    return make_api_response({
-        'id': user.user.id,
-        'username': user.user.username,
+    return make_api_response(payload={
+        'id': user.id,
+        'username': user.username,
     })
 
 
@@ -36,6 +36,6 @@ def logout():
 @login_required
 def get_current_user():
     return make_api_response(payload={
-        'id': current_user.user.id,
-        'username': current_user.user.username,
+        'id': current_user.id,
+        'username': current_user.username,
     })
