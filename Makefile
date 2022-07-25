@@ -1,12 +1,12 @@
 default: web
 
 web:
-	flask run
+	venv/bin/flask run
 
 dev:
-	pip install -r requirements.txt -r requirements-dev.txt
+	venv/bin/pip install -r requirements.txt -r requirements-dev.txt
 
 test:
-	pylint -rn vault tests
-	mypy vault tests
-	pytest tests
+	venv/bin/pylint -rn vault tests
+	venv/bin/mypy --install-types --non-interactive vault tests
+	venv/bin/pytest tests

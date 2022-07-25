@@ -419,5 +419,5 @@ analyse-fallback-blocks=no
 overgeneral-exceptions=Exception
 
 [pre-commit-hook]
-command=.virtualenv/bin/pylint
+command=venv/bin/pylint
 limit=10.0
