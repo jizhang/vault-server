@@ -48,3 +48,29 @@ CREATE TABLE `thanos_extract_config` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8 COMMENT='thanos-canal 抽取配置';
+
+CREATE TABLE `t_business_online` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL COMMENT '业务名称',
+  `db_id` int(11) NOT NULL DEFAULT '7' COMMENT '数据库实例ID，t_meta_db.id',
+  `query` text NOT NULL COMMENT '查询语句',
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态 1-有效 2-无效',
+  `created_at` datetime NOT NULL COMMENT '创建时间',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='新业务上线监控';
+
+CREATE TABLE `t_meta_db` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `db_alias` varchar(255) NOT NULL COMMENT '别名',
+  `db_type` tinyint(4) NOT NULL COMMENT '类型 1-MySQL 2-Hive',
+  `db_url` varchar(255) DEFAULT '' COMMENT '连接字符串',
+  `status` tinyint(4) NOT NULL COMMENT '状态 1-有效 99-删除',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='元数据 - 数据库';
+
+INSERT INTO t_meta_db VALUES
+(1, 'morph', 1, 'mysql+pymysql://root@127.0.0.1:3306/morph?charset=utf8', 1, NOW(), NOW());

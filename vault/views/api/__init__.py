@@ -49,7 +49,7 @@ def handle_api_exception(error):
     return response
 
 
-def make_api_response(payload=None, message=None, statusCode=200):
+def make_api_response(payload=None, message=None, statusCode=200) -> tuple:
     body = {
         'status': 'ok'
     }

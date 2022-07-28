@@ -8,7 +8,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 from . import default_settings
-from .utils import load_module_recursively
 
 if TYPE_CHECKING:
     from vault.models.user import User
@@ -49,6 +48,7 @@ def configure_views() -> None:
     with app.app_context():
         # pylint: disable=import-outside-toplevel
         from vault import views
+        from vault.utils import load_module_recursively
         load_module_recursively(views)
 
 
