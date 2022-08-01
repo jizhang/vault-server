@@ -22,10 +22,19 @@ def create_app() -> Flask:
         config_local = Path(__file__).parent.parent.joinpath('config_local.py')
         app.config.from_pyfile(str(config_local), silent=True)
 
-    if not app.debug:
-        app.logger.setLevel(logging.INFO)
-
+    configure_logging(app)
     return app
+
+
+def configure_logging(app: Flask):
+    if app.debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+
+        # Make sure engine.echo is set to False
+        logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+
+        # Fix werkzeug handler in debug mode
+        logging.getLogger('werkzeug').handlers = []
 
 
 def configure_web() -> None:

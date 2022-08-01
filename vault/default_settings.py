@@ -11,4 +11,3 @@ FE_ENV = 'development'
 # database
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root@127.0.0.1/morph?charset=utf8'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-SQLALCHEMY_ECHO = True

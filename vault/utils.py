@@ -7,13 +7,14 @@ from flask import request
 from sqlalchemy.engine.row import Row
 from sqlalchemy.orm.decl_api import DeclarativeMeta
 
+from vault import app
 from vault.views.api import APIException
 
 
 def load_module_recursively(module) -> None:
     for _, name, ispkg in pkgutil.iter_modules(module.__path__):
         module_name = '%s.%s' % (module.__name__, name)
-        print('loading view: %s' % module_name)
+        app.logger.info(f'Load module {module_name}')
         _module = __import__(module_name, fromlist=[''])
 
         if ispkg:
