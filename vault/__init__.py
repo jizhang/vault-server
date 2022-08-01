@@ -27,6 +27,9 @@ def create_app() -> Flask:
 
 
 def configure_logging(app: Flask):
+    logging.basicConfig(format='[%(asctime)s] %(levelname)s %(name)s: %(message)s')
+    logging.getLogger().setLevel(logging.INFO)
+
     if app.debug:
         logging.getLogger().setLevel(logging.DEBUG)
 
