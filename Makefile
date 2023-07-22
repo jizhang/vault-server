@@ -1,12 +1,12 @@
 default: web
 
 web:
-	venv/bin/flask run
+	poetry run flask run
 
 dev:
-	venv/bin/pip install -r requirements.txt -r requirements-dev.txt
+	poetry install
 
 test:
-	venv/bin/pylint -rn vault tests
-	venv/bin/mypy --install-types --non-interactive vault tests
-	venv/bin/pytest tests
+	poetry run ruff --fix vault tests
+	poetry run mypy vault tests
+	poetry run pytest tests

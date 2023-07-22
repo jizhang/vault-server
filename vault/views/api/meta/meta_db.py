@@ -1,8 +1,8 @@
 from flask_login import login_required
 
 from vault import db, utils
-from vault.views.api import make_api_response, exports
 from vault.models.meta_db import MetaDb
+from vault.views.api import exports, make_api_response
 
 
 @exports('/meta/db/list', methods=['GET'])
@@ -21,7 +21,7 @@ def meta_db_list() -> tuple:
             'db_type': row.db_type,
             'db_url': row.db_url,
             'create_time': utils.format_datetime(row.create_time),
-            'update_time': utils.format_datetime(row.update_time)
+            'update_time': utils.format_datetime(row.update_time),
         })
 
     return make_api_response(payload=dbs)

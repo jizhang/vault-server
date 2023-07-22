@@ -1,11 +1,11 @@
-import os
 import logging
-from typing import TYPE_CHECKING, Any, Optional
+import os
 from pathlib import Path
+from typing import TYPE_CHECKING, Any, Optional
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
 
 from . import default_settings
 

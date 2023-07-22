@@ -12,7 +12,7 @@ def exports(rule, **options):
     def decorator(fn):
         @wraps(fn)
         def decorated_view(*args, **kwargs):
-            app.logger.debug("API: %s.%s" % (fn.__module__, fn.__name__))
+            app.logger.debug('API: %s.%s' % (fn.__module__, fn.__name__))
             return fn(*args, **kwargs)
 
         api_rule = '{}/api{}'.format(app.config['APPLICATION_ROOT'], rule)
@@ -22,7 +22,7 @@ def exports(rule, **options):
     return decorator
 
 
-class APIException(Exception):
+class APIException(Exception):  # noqa: N818
     status_code = 400
 
     def __init__(self, message, status_code=None, payload=None):
@@ -49,13 +49,13 @@ def handle_api_exception(error):
     return response
 
 
-def make_api_response(payload=None, message=None, statusCode=200) -> tuple:
+def make_api_response(payload=None, message=None, status_code=200) -> tuple:
     body = {
-        'status': 'ok'
+        'status': 'ok',
     }
 
     # status code and message
-    if statusCode != 200:
+    if status_code != 200:
         body['status'] = 'fail'
 
     if message:
@@ -65,7 +65,7 @@ def make_api_response(payload=None, message=None, statusCode=200) -> tuple:
     if payload:
         body['payload'] = payload
 
-    return jsonify(body), statusCode
+    return jsonify(body), status_code
 
 #
 # error handlers
@@ -77,7 +77,7 @@ def bad_request(error):
     return jsonify({
         'status': 'fail',
         'err_code': 400,
-        'err_msg': '错误的请求'
+        'err_msg': '错误的请求',
     }), 400
 
 
@@ -86,7 +86,7 @@ def unauthorized(error):
     return jsonify({
         'status': 'fail',
         'err_code': 401,
-        'err_msg': '未登陆'
+        'err_msg': '未登陆',
     }), 401
 
 
@@ -95,7 +95,7 @@ def forbidden(error):
     return jsonify({
         'status': 'fail',
         'err_code': 403,
-        'err_msg': '没有权限'
+        'err_msg': '没有权限',
     }), 403
 
 
@@ -104,7 +104,7 @@ def page_not_found(error):
     return jsonify({
         'status': 'fail',
         'err_code': 404,
-        'err_msg': '服务不存在'
+        'err_msg': '服务不存在',
     }), 404
 
 
@@ -113,7 +113,7 @@ def internal_server_error(error):
     return jsonify({
         'status': 'fail',
         'err_code': 500,
-        'err_msg': '出错了'
+        'err_msg': '出错了',
     }), 500
 
 

@@ -5,8 +5,8 @@ from vault.models.business_online import BusinessOnline
 from vault.services import user as user_svc
 from vault.services.data_quality import business_online as biz_service
 from vault.services.meta import meta_db
-from vault.views.api import exports, make_api_response, APIException
-from vault.utils import row_to_dict, rows_to_list, get_arg, get_form
+from vault.utils import get_arg, get_form, row_to_dict, rows_to_list
+from vault.views.api import APIException, exports, make_api_response
 
 
 @exports('/data-quality/business-online/list', methods=['GET'])
@@ -32,7 +32,8 @@ def business_online_save() -> tuple:
     row_id = get_form('id', type=int, default=0)
     title = get_form('title')
     user_id = get_form('user_id', type=int)
-    status = get_form('status', type=int, choices=[BusinessOnline.STATUS_OK, BusinessOnline.STATUS_PAUSED])
+    status = get_form('status', type=int,
+                      choices=[BusinessOnline.STATUS_OK, BusinessOnline.STATUS_PAUSED])
     db_id = get_form('db_id', type=int)
     query = get_form('query')
 

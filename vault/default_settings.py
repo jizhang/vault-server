@@ -9,5 +9,5 @@ JSON_SORT_KEYS = None
 FE_ENV = 'development'
 
 # database
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root@127.0.0.1/morph?charset=utf8'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root@127.0.0.1/vault?charset=utf8'
 SQLALCHEMY_TRACK_MODIFICATIONS = False

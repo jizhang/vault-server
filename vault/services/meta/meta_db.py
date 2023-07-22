@@ -2,7 +2,7 @@ import contextlib
 from typing import Iterator
 
 from sqlalchemy import create_engine
-from sqlalchemy.engine import Engine
+from sqlalchemy.engine import Connection
 
 from vault import db
 from vault.models.meta_db import MetaDb
@@ -14,9 +14,10 @@ def db_exists(db_id: int) -> bool:
 
 
 @contextlib.contextmanager
-def connect(mdb: MetaDb) -> Iterator[Engine]:
+def connect(mdb: MetaDb) -> Iterator[Connection]:
     engine = create_engine(mdb.db_url)
     try:
-        yield engine
+        with engine.connect() as conn:
+            yield conn
     finally:
         engine.dispose()
