@@ -5,8 +5,8 @@ from vault.models.business_online import BusinessOnline
 from vault.services import user as user_svc
 from vault.services.data_quality import business_online as biz_service
 from vault.services.meta import meta_db
-from vault.views.api import exports, make_api_response, APIException
-from vault.utils import row_to_dict, rows_to_list, get_arg, get_form
+from vault.utils import get_arg, get_form, row_to_dict, rows_to_list
+from vault.views.api import APIException, exports, make_api_response
 
 
 @exports('/data-quality/business-online/list', methods=['GET'])

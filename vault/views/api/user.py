@@ -1,8 +1,8 @@
-from flask_login import login_required, current_user
+from flask_login import current_user, login_required
 
 from vault import db
 from vault.models.user import User
-from vault.views.api import make_api_response, exports
+from vault.views.api import exports, make_api_response
 
 
 @exports('/user/list', methods=['GET'])

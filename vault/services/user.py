@@ -1,5 +1,5 @@
 import hashlib
-from typing import Union, Optional, Iterable, Dict
+from typing import Dict, Iterable, Optional, Union
 
 from vault import db
 from vault.models.user import User

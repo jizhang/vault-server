@@ -7,6 +7,6 @@ dev:
 	poetry install
 
 test:
-	poetry run ruff vault tests
+	poetry run ruff --fix vault tests
 	# poetry run mypy vault tests
 	# poetry run pytest tests

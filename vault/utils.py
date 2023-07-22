@@ -1,7 +1,7 @@
 import pkgutil
-from typing import Iterable, List
-from decimal import Decimal
 from datetime import datetime
+from decimal import Decimal
+from typing import Iterable, List
 
 from flask import request
 from sqlalchemy.engine.row import Row
@@ -44,8 +44,8 @@ def get_param(data: dict, key: str, default=None, type=None, choices=None, help=
     if type is not None:
         try:
             value = type(value)
-        except Exception:
-            raise APIException(help)
+        except Exception as e:
+            raise APIException(help) from e
 
     if choices is not None and value not in choices:
         raise APIException(help)

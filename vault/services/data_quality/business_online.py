@@ -1,9 +1,9 @@
-from typing import List, Optional, Tuple
 from datetime import datetime, timedelta
+from typing import List, Optional, Tuple
 
 from vault import db
-from vault.models.meta_db import MetaDb
 from vault.models.business_online import BusinessOnline
+from vault.models.meta_db import MetaDb
 from vault.services.meta import meta_db
 
 
