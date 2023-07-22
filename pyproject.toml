@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "vault"
+version = "0.1.0"
+description = ""
+authors = ["Jerry <zhangji87@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "^2.3.2"
+flask-login = "^0.6.2"
+flask-sqlalchemy = "^3.0.5"
+pymysql = "^1.1.0"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.279"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

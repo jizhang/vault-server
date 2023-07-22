@@ -32,7 +32,8 @@ def business_online_save() -> tuple:
     row_id = get_form('id', type=int, default=0)
     title = get_form('title')
     user_id = get_form('user_id', type=int)
-    status = get_form('status', type=int, choices=[BusinessOnline.STATUS_OK, BusinessOnline.STATUS_PAUSED])
+    status = get_form('status', type=int,
+                      choices=[BusinessOnline.STATUS_OK, BusinessOnline.STATUS_PAUSED])
     db_id = get_form('db_id', type=int)
     query = get_form('query')
 

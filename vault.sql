@@ -73,4 +73,4 @@ CREATE TABLE `t_meta_db` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='元数据 - 数据库';
 
 INSERT INTO t_meta_db VALUES
-(1, 'morph', 1, 'mysql+pymysql://root@127.0.0.1:3306/morph?charset=utf8', 1, NOW(), NOW());
+(1, 'vault', 1, 'mysql+pymysql://root@127.0.0.1:3306/vault?charset=utf8', 1, NOW(), NOW());
