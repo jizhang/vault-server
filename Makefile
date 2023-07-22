@@ -9,4 +9,4 @@ dev:
 test:
 	poetry run ruff --fix vault tests
 	poetry run mypy vault tests
-	# poetry run pytest tests
+	poetry run pytest tests
