@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
 from typing import List, Optional, Tuple
 
+from sqlalchemy import text
+
 from vault import db
 from vault.models.business_online import BusinessOnline
 from vault.models.meta_db import MetaDb
@@ -49,12 +51,12 @@ def check_business(db_id: int, query: str) -> Tuple[str, bool]:
     date = (datetime.now() - timedelta(days=1)).strftime('%Y%m%d')
     output = []
     has_data = False
-    with meta_db.connect(mdb) as engine:
+    with meta_db.connect(mdb) as conn:
         for index, sql in enumerate(sqls):
             output.append(f'Query {index + 1}:')
             sql = sql.replace('{date}', date)
             sql = sql.replace('%', '%%')
-            rows = engine.execute(sql).fetchall()
+            rows = conn.execute(text(sql)).fetchall()
             if rows:
                 for row in rows:
                     output.append(', '.join(str(col) for col in row))

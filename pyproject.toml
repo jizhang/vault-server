@@ -15,6 +15,7 @@ python-dotenv = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.0.279"
+mypy = "^1.4.1"
 
 [build-system]
 requires = ["poetry-core"]
