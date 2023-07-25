@@ -6,7 +6,7 @@ from vault.services import user as user_svc
 from vault.services.data_quality import business_online as biz_service
 from vault.services.meta import meta_db
 from vault.utils import get_arg, get_form, row_to_dict, rows_to_list
-from vault.views.api import APIException, exports, make_api_response
+from vault.views.api import RequestError, exports, make_api_response
 
 
 @exports('/data-quality/business-online/list', methods=['GET'])
@@ -38,13 +38,13 @@ def business_online_save() -> tuple:
     query = get_form('query')
 
     if row_id and not biz_service.exists(row_id):
-        raise APIException('记录不存在')
+        raise RequestError('记录不存在')
 
     if user_svc.get_user(user_id) is None:
-        raise APIException('用户不存在')
+        raise RequestError('用户不存在')
 
     if not meta_db.db_exists(db_id):
-        raise APIException('数据库不存在')
+        raise RequestError('数据库不存在')
 
     row = BusinessOnline()
     row.id = row_id
@@ -68,7 +68,7 @@ def business_online_delete() -> tuple:
     row_id = get_form('id', type=int)
 
     if not biz_service.exists(row_id):
-        raise APIException('记录不存在')
+        raise RequestError('记录不存在')
 
     biz_service.delete(row_id)
     db.session.commit()
@@ -83,7 +83,7 @@ def business_online_edit() -> tuple:
 
     row = biz_service.get(row_id)
     if row is None:
-        raise APIException('记录不存在')
+        raise RequestError('记录不存在')
 
     data = row_to_dict(row)
     return make_api_response(payload={
