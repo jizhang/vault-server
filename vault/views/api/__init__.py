@@ -1,6 +1,7 @@
 from functools import wraps
+from typing import Tuple
 
-from flask import jsonify
+from flask import Response, jsonify
 
 from vault import app
 
@@ -22,63 +23,28 @@ def exports(rule, **options):
     return decorator
 
 
-class APIException(Exception):  # noqa: N818
-    status_code = 400
-
-    def __init__(self, message, status_code=None, payload=None):
-        Exception.__init__(self)
-        self.message = message
-        if status_code is not None:
-            self.status_code = status_code
-        self.payload = payload
-
-    def to_dict(self):
-        rv = dict(self.payload or ())
-        rv['message'] = self.message
-        return rv
-
-
-    def __str__(self):
-        return self.message
-
-
-@app.errorhandler(APIException)
-def handle_api_exception(error):
-    response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
-
-
-def make_api_response(payload=None, message=None, status_code=200) -> tuple:
-    body = {
+def make_api_response(payload: dict) -> Response:
+    data = {
         'status': 'ok',
+        'payload': payload,
     }
-
-    # status code and message
-    if status_code != 200:
-        body['status'] = 'fail'
-
-    if message:
-        body['message'] = message
-
-    # payload
-    if payload:
-        body['payload'] = payload
-
-    return jsonify(body), status_code
-
-#
-# error handlers
-#
+    return jsonify(data)
 
 
-@app.errorhandler(400)
-def bad_request(error):
-    return jsonify({
-        'status': 'fail',
-        'err_code': 400,
-        'err_msg': '错误的请求',
-    }), 400
+class RequestError(Exception):
+    def __init__(self, message: str, code=400):
+        super().__init__(message)
+        self.message = message
+        self.code = code
+
+
+@app.errorhandler(RequestError)
+def handle_request_error(error: RequestError) -> Tuple[Response, int]:
+    data = {
+        'code': error.code,
+        'message': error.message,
+    }
+    return jsonify(data), 400
 
 
 @app.errorhandler(401)
