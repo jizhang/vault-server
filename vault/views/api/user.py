@@ -1,3 +1,4 @@
+from flask import Response
 from flask_login import current_user, login_required
 
 from vault import db
@@ -7,7 +8,7 @@ from vault.views.api import exports, make_api_response
 
 @exports('/user/list', methods=['GET'])
 @login_required
-def user_list() -> tuple:
+def user_list() -> Response:
     rows = db.session.query(User).\
         filter_by(status=1).\
         order_by(User.username.asc()).\

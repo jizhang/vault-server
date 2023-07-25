@@ -1,3 +1,4 @@
+from flask import Response
 from flask_login import login_required
 
 from vault import db
@@ -11,7 +12,7 @@ from vault.views.api import RequestError, exports, make_api_response
 
 @exports('/data-quality/business-online/list', methods=['GET'])
 @login_required
-def business_online_list() -> tuple:
+def business_online_list() -> Response:
     rows = biz_service.get_list()
     data = rows_to_list(rows)
 
@@ -23,12 +24,12 @@ def business_online_list() -> tuple:
         else:
             item['username'] = '-'
 
-    return make_api_response(payload={'data': data})
+    return make_api_response({'data': data})
 
 
 @exports('/data-quality/business-online/save', methods=['POST'])
 @login_required
-def business_online_save() -> tuple:
+def business_online_save() -> Response:
     row_id = get_form('id', type=int, default=0)
     title = get_form('title')
     user_id = get_form('user_id', type=int)
@@ -57,14 +58,14 @@ def business_online_save() -> tuple:
     biz_service.save(row)
     db.session.commit()
 
-    return make_api_response(payload={
+    return make_api_response({
         'id': row.id,
     })
 
 
 @exports('/data-quality/business-online/delete', methods=['POST'])
 @login_required
-def business_online_delete() -> tuple:
+def business_online_delete() -> Response:
     row_id = get_form('id', type=int)
 
     if not biz_service.exists(row_id):
@@ -73,12 +74,12 @@ def business_online_delete() -> tuple:
     biz_service.delete(row_id)
     db.session.commit()
 
-    return make_api_response(payload='ok')
+    return make_api_response('ok')
 
 
 @exports('/data-quality/business-online/edit', methods=['GET'])
 @login_required
-def business_online_edit() -> tuple:
+def business_online_edit() -> Response:
     row_id = get_arg('id', type=int)
 
     row = biz_service.get(row_id)
@@ -86,26 +87,26 @@ def business_online_edit() -> tuple:
         raise RequestError('记录不存在')
 
     data = row_to_dict(row)
-    return make_api_response(payload={
+    return make_api_response({
         'data': data,
     })
 
 
 @exports('/data-quality/business-online/check-query', methods=['POST'])
 @login_required
-def business_online_check_query() -> tuple:
+def business_online_check_query() -> Response:
     db_id = get_form('db_id', type=int)
     query = get_form('query')
 
     try:
         output, _ = biz_service.check_business(db_id, query)
     except Exception as e:
-        return make_api_response(payload={
+        return make_api_response({
             'code': 400,
             'message': str(e),
         })
     else:
-        return make_api_response(payload={
+        return make_api_response({
             'code': 200,
             'message': output,
         })

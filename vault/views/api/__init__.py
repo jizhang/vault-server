@@ -1,5 +1,5 @@
 from functools import wraps
-from typing import Tuple
+from typing import Any, Tuple
 
 from flask import Response, jsonify
 
@@ -23,7 +23,7 @@ def exports(rule, **options):
     return decorator
 
 
-def make_api_response(payload: dict) -> Response:
+def make_api_response(payload: Any) -> Response:
     data = {
         'status': 'ok',
         'payload': payload,

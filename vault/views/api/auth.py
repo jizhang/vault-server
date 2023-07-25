@@ -1,4 +1,4 @@
-from flask import request
+from flask import Response, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from vault import app
@@ -7,7 +7,7 @@ from vault.views.api import RequestError, exports, make_api_response
 
 
 @exports('/login', methods=['POST'])
-def login() -> tuple:
+def login() -> Response:
     username = request.form.get('username')
     password = request.form.get('password')
     if not username or not password:
@@ -20,22 +20,22 @@ def login() -> tuple:
     login_user(user)
     app.logger.info(f'{user.username} Login')
 
-    return make_api_response(payload={
+    return make_api_response({
         'id': user.id,
         'username': user.username,
     })
 
 
 @exports('/logout', methods=['GET', 'POST'])
-def logout():
+def logout() -> Response:
     logout_user()
-    return make_api_response()
+    return make_api_response('ok')
 
 
 @exports('/current-user')
 @login_required
-def get_current_user():
-    return make_api_response(payload={
+def get_current_user() -> Response:
+    return make_api_response({
         'id': current_user.id,
         'username': current_user.username,
     })
