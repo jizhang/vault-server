@@ -1,14 +1,14 @@
 import pkgutil
 from datetime import datetime
 from decimal import Decimal
-from typing import Iterable, List
+from typing import Iterable, List, Optional
 
 from flask import request
 from sqlalchemy.engine.row import Row
 from sqlalchemy.orm.decl_api import DeclarativeMeta
 
 from vault import app
-from vault.views.api import APIException
+from vault.views.api import RequestError
 
 
 def load_module_recursively(module) -> None:
@@ -21,7 +21,8 @@ def load_module_recursively(module) -> None:
             load_module_recursively(_module)
 
 
-def get_param(data: dict, key: str, default=None, type=None, choices=None, help=None):
+def get_param(data: dict, key: str, default=None, type=None, choices=None,
+              help_message: Optional[str] = None):
     """
     获取并检查参数
 
@@ -32,33 +33,33 @@ def get_param(data: dict, key: str, default=None, type=None, choices=None, help=
     :param choices: 可选值
     :param help: 错误信息
     """
-    if help is None:
-        help = 'invalid {}'.format(key)
+    if help_message is None:
+        help_message = 'invalid {}'.format(key)
 
     value = data.get(key)
     if not value:
         if default is None:
-            raise APIException(help)
+            raise RequestError(help_message)
         return default
 
     if type is not None:
         try:
             value = type(value)
         except Exception as e:
-            raise APIException(help) from e
+            raise RequestError(help_message) from e
 
     if choices is not None and value not in choices:
-        raise APIException(help)
+        raise RequestError(help_message)
 
     return value
 
 
-def get_arg(key: str, default=None, type=None, choices=None, help=None):
-    return get_param(request.args, key, default, type, choices, help)
+def get_arg(key: str, default=None, type=None, choices=None, help_message: Optional[str] = None):
+    return get_param(request.args, key, default, type, choices, help_message)
 
 
-def get_form(key: str, default=None, type=None, choices=None, help=None):
-    return get_param(request.form, key, default, type, choices, help)
+def get_form(key: str, default=None, type=None, choices=None, help_message: Optional[str] = None):
+    return get_param(request.form, key, default, type, choices, help_message)
 
 
 def row_to_dict(row) -> dict:
