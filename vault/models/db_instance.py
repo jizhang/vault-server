@@ -1,8 +1,8 @@
 from vault import db
 
 
-class Instance(db.Model):
-    __tablename__ = 'thanos_instance'
+class DbInstance(db.Model):
+    __tablename__ = 'db_instance'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)

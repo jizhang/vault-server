@@ -13,7 +13,7 @@ INSERT INTO t_user (id, username, nickname, password, status, created_at)
 VALUES (1, 'admin', 'Administrator', '132e92e991d94525638c1e5ffbf030eb', 1, NOW());
 
 
-CREATE TABLE `thanos_instance` (
+CREATE TABLE `db_instance` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT '名称',
   `host` varchar(255) NOT NULL COMMENT '服务器名',
@@ -27,7 +27,7 @@ CREATE TABLE `thanos_instance` (
   UNIQUE KEY `uk_name` (`name`)
 ) DEFAULT CHARSET=utf8 COMMENT='数据库实例';
 
-CREATE TABLE `thanos_extract_config` (
+CREATE TABLE `extract_config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tenant_id` int(11) NOT NULL COMMENT '租户ID 1-钱咖 2-咖盾',
   `source_instance_id` int(11) NOT NULL COMMENT '源表实例ID',
@@ -47,7 +47,7 @@ CREATE TABLE `thanos_extract_config` (
   `created_at` datetime NOT NULL COMMENT '创建时间',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) DEFAULT CHARSET=utf8 COMMENT='thanos-canal 抽取配置';
+) DEFAULT CHARSET=utf8 COMMENT='抽取配置';
 
 CREATE TABLE `t_business_online` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

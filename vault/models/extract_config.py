@@ -2,7 +2,7 @@ from vault import db
 
 
 class ExtractConfig(db.Model):
-    __tablename__ = 'thanos_extract_config'
+    __tablename__ = 'extract_config'
 
     id = db.Column(db.Integer, primary_key=True)
     tenant_id = db.Column(db.Integer)
